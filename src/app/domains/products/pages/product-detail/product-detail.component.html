@@ -35,7 +35,7 @@
       {{ product()?.description }}
     </p>
     <p class="title-font font-medium text-2xl text-gray-900 mt-5">
-      {{ product()?.price | currency: "$" : "symbol" : "1.0" }}
+      {{ product()?.price | currency: '$' : 'symbol' : '1.0' }}
     </p>
     <button
       (click)="addToCart()"
