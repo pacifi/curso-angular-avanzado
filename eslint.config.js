@@ -1,6 +1,6 @@
 // @ts-check
 const eslint = require("@eslint/js");
-const tseslint = require("typescript-eslint");
+const tsslint = require("typescript-eslint");
 const angular = require("angular-eslint");
 const prettierRules = require("eslint-plugin-prettier/recommended")
 
