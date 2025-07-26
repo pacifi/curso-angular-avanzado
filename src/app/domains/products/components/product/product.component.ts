@@ -11,11 +11,12 @@ import { TimeAgoPipe } from '@shared/pipes/time-ago.pipe';
   templateUrl: './product.component.html',
 })
 export class ProductComponent {
-  readonly product = input.required<Product>();
+  // eslint-disable-next-line @angular-eslint/no-input-rename
+  readonly $product = input.required<Product>({ alias: 'product' });
 
   @Output() addToCart = new EventEmitter();
 
   addToCartHandler() {
-    this.addToCart.emit(this.product());
+    this.addToCart.emit(this.$product());
   }
 }

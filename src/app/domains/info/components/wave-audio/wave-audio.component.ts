@@ -4,7 +4,7 @@ import {
   ViewChild,
   signal,
   AfterViewInit,
-  input
+  input,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -19,15 +19,15 @@ export class WaveAudioComponent implements AfterViewInit {
   readonly audioUrl = input.required<string>();
   @ViewChild('wave') container!: ElementRef;
   private ws!: WaveSurfer;
-  isPlaying = signal(false);
+  $isPlaying = signal(false);
 
   ngAfterViewInit() {
     this.ws = WaveSurfer.create({
       url: this.audioUrl(),
       container: this.container.nativeElement,
     });
-    this.ws.on('play', () => this.isPlaying.set(true));
-    this.ws.on('pause', () => this.isPlaying.set(false));
+    this.ws.on('play', () => this.$isPlaying.set(true));
+    this.ws.on('pause', () => this.$isPlaying.set(false));
   }
 
   playPause() {

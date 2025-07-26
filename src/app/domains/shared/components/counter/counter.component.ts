@@ -1,13 +1,12 @@
 import {
   Component,
-  SimpleChanges,
   signal,
-  OnChanges,
   OnInit,
   AfterViewInit,
   OnDestroy,
   input,
   effect,
+  computed,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -17,9 +16,12 @@ import { CommonModule } from '@angular/common';
   templateUrl: './counter.component.html',
 })
 export class CounterComponent implements OnInit, AfterViewInit, OnDestroy {
-  readonly duration = input.required<number>();
-  readonly message = input.required<string>();
-  counter = signal(0);
+  // eslint-disable-next-line @angular-eslint/no-input-rename
+  readonly $duration = input.required<number>({ alias: 'duration' });
+  // eslint-disable-next-line @angular-eslint/no-input-rename
+  readonly $message = input.required<string>({ alias: 'message' });
+  $counter = signal(0);
+  $doubleDuration = computed(() => this.$duration() * 2);
   counterRef: number | undefined;
 
   constructor() {
@@ -29,12 +31,12 @@ export class CounterComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log('constructor');
     console.log('-'.repeat(10));
     effect(() => {
-      this.duration();
+      this.$duration();
       this.doSomething();
     });
     effect(() => {
-      this.message();
-      this.doSomething2();
+      this.$message();
+      this.doSomethingTwo();
     });
   }
 
@@ -44,11 +46,11 @@ export class CounterComponent implements OnInit, AfterViewInit, OnDestroy {
     // async, then, subs
     console.log('ngOnInit');
     console.log('-'.repeat(10));
-    console.log('duration =>', this.duration());
-    console.log('message =>', this.message());
+    console.log('duration =>', this.$duration());
+    console.log('message =>', this.$message());
     this.counterRef = window.setInterval(() => {
       console.log('run interval');
-      this.counter.update((statePrev) => statePrev + 1);
+      this.$counter.update((statePrev) => statePrev + 1);
     }, 1000);
   }
 
@@ -70,7 +72,7 @@ export class CounterComponent implements OnInit, AfterViewInit, OnDestroy {
     // async
   }
 
-  doSomething2() {
+  doSomethingTwo() {
     console.log('change message');
     // async
   }

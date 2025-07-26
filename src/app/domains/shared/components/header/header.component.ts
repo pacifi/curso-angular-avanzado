@@ -15,17 +15,17 @@ import { SearchComponent } from '../search/search.component';
   templateUrl: './header.component.html',
 })
 export class HeaderComponent {
-  hideSideMenu = signal(true);
-  showMenu = signal(false);
+  $hideSideMenu = signal(true);
+  $showMenu = signal(false);
   private cartService = inject(CartService);
-  cart = this.cartService.cart;
-  total = this.cartService.total;
+  cart = this.cartService.$cart;
+  total = this.cartService.$total;
 
   toogleSideMenu() {
-    this.hideSideMenu.update((prevState) => !prevState);
+    this.$hideSideMenu.update((prevState) => !prevState);
   }
 
   toggleMenu() {
-    this.showMenu.update((prevState) => !prevState);
+    this.$showMenu.update((prevState) => !prevState);
   }
 }

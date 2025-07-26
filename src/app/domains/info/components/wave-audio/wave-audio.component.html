@@ -1,7 +1,8 @@
+@let isPlaying = $isPlaying();
 <div>
   <div #wave></div>
   <button (click)="playPause()">
-    @if (isPlaying()) {
+    @if (isPlaying) {
       <span>Pause</span>
     } @else {
       Play
