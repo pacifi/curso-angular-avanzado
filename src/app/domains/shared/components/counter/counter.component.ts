@@ -1,12 +1,13 @@
 import {
   Component,
-  Input,
   SimpleChanges,
   signal,
   OnChanges,
   OnInit,
   AfterViewInit,
   OnDestroy,
+  input,
+  effect,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -15,11 +16,9 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   templateUrl: './counter.component.html',
 })
-export class CounterComponent
-  implements OnChanges, OnInit, AfterViewInit, OnDestroy
-{
-  @Input({ required: true }) duration = 0;
-  @Input({ required: true }) message = '';
+export class CounterComponent implements OnInit, AfterViewInit, OnDestroy {
+  readonly duration = input.required<number>();
+  readonly message = input.required<string>();
   counter = signal(0);
   counterRef: number | undefined;
 
@@ -29,17 +28,14 @@ export class CounterComponent
     // una vez
     console.log('constructor');
     console.log('-'.repeat(10));
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    // before and during render
-    console.log('ngOnChanges');
-    console.log('-'.repeat(10));
-    console.log(changes);
-    const duration = changes['duration'];
-    if (duration && duration.currentValue !== duration.previousValue) {
+    effect(() => {
+      this.duration();
       this.doSomething();
-    }
+    });
+    effect(() => {
+      this.message();
+      this.doSomething2();
+    });
   }
 
   ngOnInit() {
@@ -48,8 +44,8 @@ export class CounterComponent
     // async, then, subs
     console.log('ngOnInit');
     console.log('-'.repeat(10));
-    console.log('duration =>', this.duration);
-    console.log('message =>', this.message);
+    console.log('duration =>', this.duration());
+    console.log('message =>', this.message());
     this.counterRef = window.setInterval(() => {
       console.log('run interval');
       this.counter.update((statePrev) => statePrev + 1);
@@ -71,6 +67,11 @@ export class CounterComponent
 
   doSomething() {
     console.log('change duration');
+    // async
+  }
+
+  doSomething2() {
+    console.log('change message');
     // async
   }
 }
