@@ -1,13 +1,4 @@
-import {
-  Component,
-  signal,
-  OnInit,
-  AfterViewInit,
-  OnDestroy,
-  input,
-  effect,
-  computed,
-} from '@angular/core';
+import { Component, signal, OnInit, AfterViewInit, OnDestroy, input, effect, computed, model } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -18,8 +9,8 @@ import { CommonModule } from '@angular/common';
 export class CounterComponent implements OnInit, AfterViewInit, OnDestroy {
   // eslint-disable-next-line @angular-eslint/no-input-rename
   readonly $duration = input.required<number>({ alias: 'duration' });
-  // eslint-disable-next-line @angular-eslint/no-input-rename
-  readonly $message = input.required<string>({ alias: 'message' });
+
+  $message = model.required<string>({ alias: 'message' });
   $counter = signal(0);
   $doubleDuration = computed(() => this.$duration() * 2);
   counterRef: number | undefined;
@@ -50,7 +41,7 @@ export class CounterComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log('message =>', this.$message());
     this.counterRef = window.setInterval(() => {
       console.log('run interval');
-      this.$counter.update((statePrev) => statePrev + 1);
+      this.$counter.update(statePrev => statePrev + 1);
     }, 1000);
   }
 
@@ -75,5 +66,9 @@ export class CounterComponent implements OnInit, AfterViewInit, OnDestroy {
   doSomethingTwo() {
     console.log('change message');
     // async
+  }
+
+  setMessage() {
+    this.$message.set(Math.random().toString());
   }
 }

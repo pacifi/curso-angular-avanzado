@@ -9,13 +9,7 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-about',
-  imports: [
-    CommonModule,
-    CounterComponent,
-    WaveAudioComponent,
-    HighlightDirective,
-    FormsModule,
-  ],
+  imports: [CommonModule, CounterComponent, WaveAudioComponent, HighlightDirective, FormsModule],
   templateUrl: './about.component.html',
 })
 export default class AboutComponent {
